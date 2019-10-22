@@ -1,0 +1,7 @@
+.chart-boundaries {
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
