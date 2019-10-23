@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import './Login.css'
 import { Form, Icon, Input, Button, Layout } from 'antd'
 import { registerUser } from '../../store/actions/authAction'
 import { connect } from 'react-redux'
+import Logo from './Logo'
 
 const { Content } = Layout
 
@@ -19,13 +20,16 @@ const Register = props => {
         e.preventDefault()
         props.form.validateFields((err, newUser) => {
             if (!err) {
-                props.registerUser(newUser)
+                props.registerUser(newUser, props.history)
             }
         })
     }
     const { getFieldDecorator } = props.form
     return (
         <Content>
+            <div className="logo">
+                <Logo />
+            </div>
             <div className="login-layout">
                 <Form onSubmit={handleSubmit} className="register-form">
                     <Form.Item>
@@ -100,7 +104,7 @@ const Register = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        registerUser: (newUser) => dispatch(registerUser(newUser))
+        registerUser: (newUser, history) => dispatch(registerUser(newUser, history))
     }
 }
 
@@ -110,4 +114,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Register))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form.create()(Register)))
