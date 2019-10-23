@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const key = require('../../config/keys')
 const passport = require('passport')
-const { Notification } = require('../../utils/notifications')
+
 //Load Input Validation...
 const { validateRegisterInput } = require('../../validator/register')
 const { validateLoginInput } = require('../../validator/login')
@@ -13,12 +13,14 @@ const { validateLoginInput } = require('../../validator/login')
 const User = require('../../models/User')
 
 router.post('/register', (req, res) => {
-
+    //Validate received user data
     validateRegisterInput(req.body).then(() => {
+        //check if user email is present in system
         User.findOne({
             email: req.body.email
         }).then(user => {
             if (user) {
+                //return text if user exists
                 return res.status(400).json('A user with this email already exists')
             } else {
                 const newUser = new User({
@@ -26,14 +28,16 @@ router.post('/register', (req, res) => {
                     email: req.body.email,
                     password: req.body.password,
                 })
+                //hash password for security before storage
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
                         if (err) throw err
                         newUser.password = hash
+                        // On successful hashing add user info to database
                         newUser
                             .save()
                             .then(user => {
-                                return res.status(200).json(user)
+                                return res.status(200).send('sucess')
                             })
                             .catch(err => {
                                 return res.status(400).json(err.message)
@@ -51,12 +55,12 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-
+    //validate request data 
     validateLoginInput(req.body).then(() => {
 
         const email = req.body.email
         const password = req.body.password
-
+        //Lookup user email in system
         User.findOne({
             email
         }).then(user => {
@@ -70,14 +74,15 @@ router.post('/login', (req, res) => {
                     const payload = {
                         id: user.id,
                         name: user.name,
-                    } // JWT Payload
-                    //Sign Token....
+                    }
+                    //Verify JWT
                     jwt.sign(
                         payload,
                         key.secretOrKey, {
                         expiresIn: 3600
                     },
                         (err, token) => {
+                            //On successful verification send bearer token to client
                             res.json({
                                 success: true,
                                 token: 'Bearer  ' + token,
@@ -95,21 +100,5 @@ router.post('/login', (req, res) => {
         return res.status(401).json(err.message)
     })
 })
-
-//@route : /api/users/current
-//@desc: used for returning current logged in user
-//@access: private
-router.get(
-    '/current',
-    passport.authenticate('jwt', {
-        session: true
-    }),
-    (req, res) => {
-        res.json(req.user)
-    }
-)
-
-//@route: /api/users/current_session
-//@desc: used for general testing
 
 module.exports = router

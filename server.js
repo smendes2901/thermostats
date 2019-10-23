@@ -40,12 +40,12 @@ app.use(passport.initialize())
 //passport config
 require('./config/passport')(passport)
 
-//Route Setup...
+//attach route to url
 app.use('/api/users', users)
 app.use('/api/readings', readings)
 app.use('/api/alerts', alerts)
 
-//Route Operations...
+//Root route
 app.get('/', (req, res) => {
     res.send('Root route of server')
 })
@@ -56,8 +56,11 @@ const server = app.listen(port, () => {
     `server started on ${port}`
 })
 
+
+//integrating socket.io with server
 const io = require('socket.io')(server)
 
+//Initialize socket connect connection
 io.on('connection', function (socket) {
     console.log('a user connected')
     socket.on('disconnect', function () {

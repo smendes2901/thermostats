@@ -15,18 +15,23 @@ const read = async (fileName) => {
 const upload = async (data, name) => {
     try {
         let toInsert = []
-        await mongoose.connect(mongoTableURI, async (err, db) => {
-            if (err) return res.status(400).json(err)
-            const collection = db.collection(name)
-            for (let i = 0; i < data.length; i++) {
-                toInsert.push(data[i])
-                const isLastItem = i === data.length - 1 // every 100 items, insert into the database
-                if (i % 100 === 0 || isLastItem) {
-                    await collection.insertMany(toInsert)
-                    toInsert = []
+        await mongoose.connect(mongoTableURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        },
+            async (err, db) => {
+                if (err) return res.status(400).json(err)
+                const collection = db.collection(name)
+                for (let i = 0; i < data.length; i++) {
+                    toInsert.push(data[i])
+                    const isLastItem = i === data.length - 1
+                    if (i % 1000 === 0 || isLastItem) {
+                        //insert every 1000 into the database
+                        await collection.insertMany(toInsert)
+                        toInsert = []
+                    }
                 }
-            }
-        })
+            })
     } catch (err) {
         throw err
     }
