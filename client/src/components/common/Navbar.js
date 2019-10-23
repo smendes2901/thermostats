@@ -26,6 +26,7 @@ const Navbar = props => {
                         </Text>
                         </Link>
                     </Menu.Item>
+                    <Text>Welcome, {props.user.name}</Text>
                     <Menu.Item key="logout" style={{ float: 'right' }} onClick={onLogOut}>
                         <Icon type="logout" />
                         Logout
@@ -41,7 +42,8 @@ const Navbar = props => {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        user: state.auth.user
     }
 }
 
