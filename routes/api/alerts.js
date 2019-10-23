@@ -37,7 +37,7 @@ router.post('/', passport.authenticate('jwt', {
 
 
 
-//Update alerts
+//Update alerts based on _id array
 router.post('/update', passport.authenticate('jwt', {
     session: false
 }), async (req, res) => {
