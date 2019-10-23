@@ -25,7 +25,7 @@ const initialVerfication = (props) => {
     //if token time is less than current time then logout user and redirect time to login page
     if (decoded.exp < currentTime) {
       props.logOutUser()
-      props.history.push('/')
+      window.location.href = '/login';
     }
   }
 }
