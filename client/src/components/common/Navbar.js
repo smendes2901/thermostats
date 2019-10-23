@@ -16,23 +16,20 @@ const Navbar = props => {
     }
     return (
         <div>
-            {
-                props.isAuthenticated ? (<Menu mode="horizontal">
-                    <Menu.Item key="title">
-                        <Link to='/'>
-                            <img src={logo} style={{ "width": "35px", "height": "30px" }} alt="logo" />
-                            <Text strong>
-                                THERMOSTAT
+            <Menu mode="horizontal">
+                <Menu.Item key="title">
+                    <Link to='/'>
+                        <img src={logo} style={{ "width": "35px", "height": "30px" }} alt="logo" />
+                        <Text strong>
+                            THERMOSTATS
                         </Text>
-                        </Link>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="logout" style={{ float: 'right' }} onClick={onLogOut}>
+                    <Icon type="logout" />
+                    Logout
                     </Menu.Item>
-                    <Menu.Item key="logout" style={{ float: 'right' }} onClick={onLogOut}>
-                        <Icon type="logout" />
-                        Logout
-                    </Menu.Item>
-                </Menu>) : (null)
-            }
-
+            </Menu>
             <Notification />
 
         </div >

@@ -14,18 +14,14 @@ import Details from './components/files/Details'
 import AlertList from './components/common/AlertList'
 
 const initialVerfication = (props) => {
-  // Check loacl storage for bearer token
   if (localStorage.jwtToken) {
-    //set bearer token to all axios headers
     setAuthToken(localStorage.jwtToken)
     const decoded = jwt_decoded(localStorage.jwtToken)
-    //decode token and set user params in Redux
     props.setCurrentUser(decoded)
     const currentTime = Date.now() / 1000
-    //if token time is less than current time then logout user and redirect time to login page
     if (decoded.exp < currentTime) {
       props.logOutUser()
-      props.history.push('/')
+      window.location.href = '/login'
     }
   }
 }
@@ -33,7 +29,6 @@ const initialVerfication = (props) => {
 
 function App(props) {
 
-  // Run each time props changes
   useEffect(() => {
     initialVerfication(props)
   }, [props])

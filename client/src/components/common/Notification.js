@@ -11,6 +11,7 @@ const Notification = props => {
     })
 
     const clear = () => {
+        console.log('executed')
         setAlert({
             message: null,
             status: null

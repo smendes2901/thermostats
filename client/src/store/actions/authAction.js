@@ -7,10 +7,8 @@ import { GET_NOTIFICATION, SET_CURRENT_USER } from './types'
 //Register User...
 export const registerUser = (data, history) => dispatch => {
     axios
-        .post('/api/users/register', data)
-        // push to login page after successful register
+        .post('http://localhost:5000/api/users/register', data)
         .then(res => history.push('/login'))
-        // dispatch notification incase of any errors
         .catch(err => {
             dispatch({
                 type: GET_NOTIFICATION,
@@ -21,7 +19,7 @@ export const registerUser = (data, history) => dispatch => {
 
 //Get login token ...
 export const loginUser = userData => dispatch => {
-    axios.post('/api/users/login', userData)
+    axios.post('http://localhost:5000/api/users/login', userData)
         .then(res => {
             //Set token to local storage
             const { token } = res.data

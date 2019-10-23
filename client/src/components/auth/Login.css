@@ -9,14 +9,10 @@
     border: 2px;
     border-radius: 10px;
     border-style: solid;
-    top: 160px;
+    top: 120px;
     left: 530px;
     position: absolute;
     width: 300px;
-}
 
-.logo {
-    position: relative;
-    top: 40px;
-    right: 5px;
+
 }
