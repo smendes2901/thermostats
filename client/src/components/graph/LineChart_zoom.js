@@ -22,7 +22,7 @@ const LineChart_zoom = (props) => {
     const [state, setState] = useState([])
     const { setNotification, fileName } = props
     useEffect(() => {
-        axios.post('http://localhost:5000/api/readings',
+        axios.post('/api/readings',
             { name: fileName })
             .then(rec => {
                 setState(rec.data)
@@ -33,17 +33,15 @@ const LineChart_zoom = (props) => {
     }, [fileName, setNotification])
 
     const _rememberValue = value => {
-        console.log(value)
         setValue(value)
     }
 
     const _forgetValue = () => {
-        console.log()
         setValue(null)
     }
 
     const uploadFile = fileName => {
-        axios.post('http://localhost:5000/api/readings/upload', { name: fileName }).then(
+        axios.post('/api/readings/upload', { name: fileName }).then(
             res => {
                 setNotification(res)
             }).catch(err => {

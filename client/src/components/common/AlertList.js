@@ -12,7 +12,7 @@ const AlertList = (props) => {
 
     useEffect(() => {
         if (props.isAuthenticated) {
-            axios.get("http://localhost:5000/api/alerts").then(messages => {
+            axios.get("/api/alerts").then(messages => {
                 setMessages(messages.data.reverse())
             }).catch(err => {
                 console.log(err.response)
@@ -31,7 +31,7 @@ const AlertList = (props) => {
             messages.forEach(message => {
                 idArray.push(message._id)
             })
-            axios.post("http://localhost:5000/api/alerts/update",
+            axios.post("/api/alerts/update",
                 {
                     replace: { read: true },
                     idArray: idArray

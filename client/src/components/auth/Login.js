@@ -3,6 +3,7 @@ import { Form, Icon, Input, Button, Layout } from 'antd'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import "./Login.css"
+import Logo from './Logo'
 import { loginUser } from '../../store/actions/authAction'
 
 
@@ -24,6 +25,9 @@ const Login = props => {
     const { getFieldDecorator } = props.form
     return (
         <Content>
+            <div className="logo">
+                <Logo />
+            </div>
             <div className="login-layout">
                 <Form onSubmit={handleSubmit} className="login-form">
                     <Form.Item>

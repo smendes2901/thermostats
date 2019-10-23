@@ -9,7 +9,7 @@ const Browser = () => {
     const [items, setItems] = useState([])
     const [search, setSearch] = useState('')
     useEffect(() => {
-        axios.get('http://localhost:5000/api/readings')
+        axios.get('/api/readings')
             .then(res => {
                 setItems(res.data)
             })
