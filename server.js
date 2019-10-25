@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const cors = require('cors')
+const path = require('path')
 
 app.use(cors())
 
@@ -16,6 +17,8 @@ app.use(bodyParser.json())
 
 //Port Setup....
 const port = 5000
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Route Setup...
 const users = require('./routes/api/users')
@@ -50,11 +53,17 @@ app.get('/', (req, res) => {
     res.send('Root route of server')
 })
 
+app.get('*', (req, res) => { res.sendFile(path.join(__dirname + '/client/build/index.html')); })
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, 'client/build')));
+    app.get('*', (req, res) => { res.sendfile(path.join(__dirname = 'client/build/index.html')); })
+}
 //Start Server....
 const server = app.listen(port, () => {
     `server started on ${port}`
 })
+
 
 
 //integrating socket.io with server
