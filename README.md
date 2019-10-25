@@ -9,16 +9,22 @@ Note: Kindly ensure there is a stable internet connection before proceeding
 Installation instructions for this app are as follow:
 
 * Git clone 
-* cd into the folder and run `npm install`.
+* cd into the folder.
+* run `npm install`.
+* create a data folder in the root directory.
 * unzip the file THERM0001.7z and place the contents in the data folder.
-* run`npm run dev` in your terminal and wait for the webpage to bootup
-
+* Kindly change the mongo url in the config/keys.js file for database connection or leave it at default.
+* cd into the client dir.
+* run `npm install`.
+* run `yarn build`.
+* cd back into the root dir.
+* run `yarn start`.
 
 Once the webite boots up you can choose to register as a new user or login using an existing credentials.  
 email: temp@temp.com  
-password:temp@123  
+password:temp@123
 
-mongo server url: `https://cloud.mongodb.com/v2/5da8bf32f2a30b8797db909f#clusters`  
+default mongo server url: `https://cloud.mongodb.com/v2/5da8bf32f2a30b8797db909f#clusters`  
 username: smendes2901@gmail.com  
 password: Shaun@2901  
 Project Name: Thermostats
