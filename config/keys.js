@@ -4,5 +4,4 @@ module.exports = {
     secretOrKey: 'secret',
     // mongoURI: 'mongodb://localhost:27017/thermostat?retryWrites=true&w=majority',
     // mongoTableURI: 'mongodb://localhost:27017/tables?retryWrites=true&w=majority',
-
 }
