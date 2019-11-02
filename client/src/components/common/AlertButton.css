@@ -1,21 +1,21 @@
 .alert-badge {
-    z-index: 10;
-    position: absolute;
-    right: 100px;
-    top: 500px;
+	z-index: 10;
+	position: absolute;
+	right: 100px;
+	top: 500px;
 }
 
 .alert-button {
-    width: 70px;
-    height: 65px;
+	width: 70px;
+	height: 65px;
 }
 
 .alert-icon {
-    height: 25px;
-    font-size: 40px;
+	height: 25px;
+	font-size: 40px;
 }
 
 .ant-popover-inner-content {
-    max-height: 170px;
-    overflow-y: scroll;
+	max-height: 170px;
+	overflow-y: scroll;
 }

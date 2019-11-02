@@ -1,14 +1,14 @@
 .chart-boundaries {
-    width: 400px;
-    height: 200px;
-    position: absolute;
-    top: 100px;
-    left: 100px;
+	width: 400px;
+	height: 200px;
+	position: absolute;
+	top: 100px;
+	left: 100px;
 }
 
 .back {
-    position: relative;
-    float: left;
-    left: 110px;
-    padding-top: 10px;
+	position: relative;
+	float: left;
+	left: 110px;
+	padding-top: 10px;
 }

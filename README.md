@@ -3,12 +3,11 @@
 Thermostat is a scalable web utility built using Node Express, React and MongoDb.
 The purpose is to view the thermometer readings from a local directory and upload them onto mongo.
 
-
 Note: Kindly ensure there is a stable internet connection before proceeding
 
 Installation instructions for this app are as follow:
 
-* Git clone 
+* Git clone
 * cd into the folder.
 * run `npm install`.
 * create a data folder in the root directory.
@@ -36,5 +35,6 @@ Once the graph is analysed the readings can be uploaded to mongo.
 Once the upload the user will receive a notification.  
 
 There are two databases:_
+
 * thermostats: Used to keep user infromation including alert logs.
 * tables: Used to store data from json.  
