@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
-const { mongoURI } = require('./keys')
+const {mongoURI} = require('./keys')
 
 const db = mongoose.createConnection(mongoURI, {
 	useNewUrlParser: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
 })
 
 module.exports = {
-	db
+	db,
 }

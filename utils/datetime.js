@@ -1,9 +1,9 @@
-const epochToString = (epochDate) => {
+const epochToString = epochDate => {
 	const date = new Date(epochDate)
 	const year = date.getFullYear()
 	const month = date.getMonth()
 	const day = date.getDate()
-	return (year + '-' + month + '-' + day)
+	return year + '-' + month + '-' + day
 }
 
 const stringToEpoch = stringDate => {
@@ -13,5 +13,5 @@ const stringToEpoch = stringDate => {
 
 module.exports = {
 	epochToString,
-	stringToEpoch
+	stringToEpoch,
 }
