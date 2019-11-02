@@ -3,9 +3,9 @@ const passport = require('passport')
 const router = express.Router()
 const fs = require('fs')
 const JSONStream = require('JSONStream')
-const { epochToString, stringToEpoch } = require('../../utils/datetime')
-const { upload } = require('../../utils/JSON')
-const { insertAlerts } = require('../../utils/alerts')
+const {epochToString, stringToEpoch} = require('../../utils/datetime')
+const {upload} = require('../../utils/JSON')
+const {insertAlerts} = require('../../utils/alerts')
 const Alert = require('../../models/Alert')
 
 //get file list from folder
@@ -21,13 +21,13 @@ router.get('/', async (req, res) => {
 router.post(
 	'/',
 	passport.authenticate('jwt', {
-		session: false
+		session: false,
 	}),
 	(req, res) => {
 		try {
 			const fileName = req.body.name
 			const stream = fs.createReadStream('./data/' + fileName, {
-				encoding: 'utf8'
+				encoding: 'utf8',
 			})
 			const parser = JSONStream.parse('*')
 			const record = {}
@@ -69,7 +69,7 @@ router.post(
 
 const uploadAndNotify = async (io, fileName, collectionName) => {
 	const stream = fs.createReadStream('./data/' + fileName, {
-		encoding: 'utf8'
+		encoding: 'utf8',
 	})
 	const parser = JSONStream.parse('*')
 	let records = []
@@ -90,24 +90,28 @@ const uploadAndNotify = async (io, fileName, collectionName) => {
 		let message = {
 			message: fileName + ' Upload Successful',
 			status: 'success',
-			read: false
+			read: false,
 		}
-		insertAlerts(message).then(id => {
-			//update the alerts table once the upload fails/succeeds
-			Alert.findById({
-				_id: id
-			}).then(msg => {
-				//on successful update send the message via socket to client
-				io.emit('test', {
-					msg
+		insertAlerts(message)
+			.then(id => {
+				//update the alerts table once the upload fails/succeeds
+				Alert.findById({
+					_id: id,
 				})
-			}).catch(err => {
-				//console.log error message
+					.then(msg => {
+						//on successful update send the message via socket to client
+						io.emit('test', {
+							msg,
+						})
+					})
+					.catch(err => {
+						//console.log error message
+						console.log(err.message)
+					})
+			})
+			.catch(err => {
 				console.log(err.message)
 			})
-		}).catch(err => {
-			console.log(err.message)
-		})
 	})
 }
 
@@ -115,19 +119,17 @@ const uploadAndNotify = async (io, fileName, collectionName) => {
 router.post(
 	'/upload',
 	passport.authenticate('jwt', {
-		session: false
+		session: false,
 	}),
 	async (req, res) => {
 		const io = req.app.get('socketio')
 		const fileName = req.body.name
 		const collectionName = fileName.split('.')[0]
-		fs.exists('./data/' + fileName, (result) => {
+		fs.exists('./data/' + fileName, result => {
 			if (result === false) return res.status(400).send('File doesn\'t exist')
 			uploadAndNotify(io, fileName, collectionName)
 			return res.send('Upload has successfully started')
 		})
-
-
 	}
 )
 

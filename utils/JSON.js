@@ -1,4 +1,4 @@
-const { mongoTableURI } = require('../config/keys')
+const {mongoTableURI} = require('../config/keys')
 const mongoose = require('mongoose')
 
 const upload = async (data, name) => {
@@ -6,7 +6,7 @@ const upload = async (data, name) => {
 		mongoTableURI,
 		{
 			useNewUrlParser: true,
-			useUnifiedTopology: true
+			useUnifiedTopology: true,
 		},
 		async (err, db) => {
 			if (err) throw new Error(err)
@@ -17,5 +17,5 @@ const upload = async (data, name) => {
 }
 
 module.exports = {
-	upload
+	upload,
 }
