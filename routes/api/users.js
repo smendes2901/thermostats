@@ -3,11 +3,14 @@ const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const key = require('../../config/keys')
-const passport = require('passport')
 
 //Load Input Validation...
-const { validateRegisterInput } = require('../../validator/register')
-const { validateLoginInput } = require('../../validator/login')
+const {
+    validateRegisterInput
+} = require('../../validator/register')
+const {
+    validateLoginInput
+} = require('../../validator/login')
 
 // Load user model...
 const User = require('../../models/User')
@@ -79,8 +82,8 @@ router.post('/login', (req, res) => {
                     jwt.sign(
                         payload,
                         key.secretOrKey, {
-                        expiresIn: 3600
-                    },
+                            expiresIn: 3600
+                        },
                         (err, token) => {
                             //On successful verification send bearer token to client
                             res.json({

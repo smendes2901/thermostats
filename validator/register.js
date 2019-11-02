@@ -9,9 +9,9 @@ const validateRegisterInput = async (data) => {
     data.password2 = !isEmpty(data.password2) ? data.password2 : ''
 
     if (!Validator.isLength(data.name, {
-        min: 2,
-        max: 30
-    })) {
+            min: 2,
+            max: 30
+        })) {
         throw new Error('Name must be between 2 and 30 characters')
     } else if (Validator.isEmpty(data.name)) {
         throw new Error('Name field is required')
@@ -22,14 +22,14 @@ const validateRegisterInput = async (data) => {
     } else if (Validator.isEmpty(data.password)) {
         throw new Error('Password field is required')
     } else if (!Validator.isLength(data.password, {
-        min: 6,
-        max: 30
-    })) {
+            min: 6,
+            max: 30
+        })) {
         throw new Error('Password must be at least 6 characters')
     } else if (Validator.isEmpty(data.password2)) {
         throw new Error('Confirm Password field is required')
     } else if (!Validator.equals(data.password, data.password2)) {
-        throw new Error('Passwords must match')
+        throw new Error("Passwords must match")
     } else {
         return true
     }

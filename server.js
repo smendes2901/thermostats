@@ -57,14 +57,12 @@ app.get('*', (req, res) => { res.sendFile(path.join(__dirname + '/client/build/i
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, 'client/build')));
-    app.get('*', (req, res) => { res.sendfile(path.join(__dirname = 'client/build/index.html')); })
+    app.get('*', (req, res) => { res.sendfile(path.join(__dirname, 'client/build/index.html')); })
 }
 //Start Server....
 const server = app.listen(port, () => {
     `server started on ${port}`
 })
-
-
 
 //integrating socket.io with server
 const io = require('socket.io')(server)
