@@ -1,22 +1,22 @@
 .ant-layout-content {
-    text-align: center;
+  text-align: center;
 }
 
 .login-layout {
-    padding: 20px;
-    padding-top: 50px;
-    border-color: black;
-    border: 2px;
-    border-radius: 10px;
-    border-style: solid;
-    top: 160px;
-    left: 39%;
-    position: absolute;
-    width: 300px;
+  padding: 20px;
+  padding-top: 50px;
+  border-color: black;
+  border: 2px;
+  border-radius: 10px;
+  border-style: solid;
+  top: 160px;
+  left: 39%;
+  position: absolute;
+  width: 300px;
 }
 
 .logo {
-    position: relative;
-    top: 40px;
-    right: 5px;
+  position: relative;
+  top: 40px;
+  right: 5px;
 }

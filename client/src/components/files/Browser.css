@@ -1,12 +1,11 @@
 .list-pos {
-    position: absolute;
-    top: 100px;
-    left: 500px;
-    width: 300px;
-
+	position: absolute;
+	top: 100px;
+	left: 500px;
+	width: 300px;
 }
 
 .file-list {
-    overflow-y: scroll;
-    height: 500px;
+	overflow-y: scroll;
+	height: 500px;
 }
