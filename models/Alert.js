@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
-const { db } = require('../config/mongo')
+const {
+    db
+} = require('../config/mongo')
 const Schema = mongoose.Schema
 
 const AlertSchema = new Schema({
@@ -19,4 +21,4 @@ const AlertSchema = new Schema({
     }
 })
 
-module.exports = Alert = db.model('alerts', AlertSchema)
+module.exports = db.model('alerts', AlertSchema)

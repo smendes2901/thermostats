@@ -2,10 +2,18 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 const fs = require('fs')
-const { epochToString, stringToEpoch } = require('../../utils/datetime')
+const {
+    epochToString,
+    stringToEpoch
+} = require('../../utils/datetime')
 const reduceByDate = require('../../utils/reduceByDate')
-const { read, upload } = require('../../utils/JSON')
-const { insertAlerts } = require('../../utils/alerts')
+const {
+    read,
+    upload
+} = require('../../utils/JSON')
+const {
+    insertAlerts
+} = require('../../utils/alerts')
 
 // Load alert model...
 const Alert = require('../../models/Alert')
@@ -26,15 +34,19 @@ router.post('/', passport.authenticate('jwt', {
     read(req.body.name).then(records => {
         const refinedRecords =
             //convert each epoch to string
-            records.map(record => ({ val: record.val, ts: epochToString(record.ts) }))
-                //sort records based on ts
-                .sort((prev, curr) => prev.ts - curr.ts)
+            records.map(record => ({
+                val: record.val,
+                ts: epochToString(record.ts)
+            }))
                 //filter reacords for the year 2015
                 .filter(record => record.ts.startsWith('2015'))
                 //groupby records  on a per day basis
                 .reduce((acc, curr) => reduceByDate(acc, curr), [])
                 //get the average val per day
-                .map(record => ({ val: (record.val / record.count), ts: stringToEpoch(record.ts) }))
+                .map(record => ({
+                    val: (record.val / record.count),
+                    ts: stringToEpoch(record.ts)
+                }))
                 //set x and y values for graph
                 .map(record => ({
                     x: record.ts,
@@ -66,9 +78,13 @@ const uploadAndNotify = async (data, name, req) => {
     }
     insertAlerts(message).then(id => {
         //update the alerts table once the upload fails/succeeds
-        Alert.findById({ _id: id }).then(msg => {
+        Alert.findById({
+            _id: id
+        }).then(msg => {
             //on successful update send the message via socket to client
-            io.emit('test', { msg })
+            io.emit('test', {
+                msg
+            })
         }).catch(err => {
             //console.log error message
             console.log(err.message)
@@ -86,13 +102,12 @@ router.post('/upload', passport.authenticate('jwt', {
     try {
         //split file name based on '.' and extract the name to be used as collectionName
         const collectionName = req.body.name.split('.')[0]
-        readings = await read(req.body.name)
+        const readings = await read(req.body.name)
         //Upload json and notify user asynchronously
         uploadAndNotify(readings, collectionName, req)
         //Notify user on successful initiation of upload
         return res.status(200).send('Upload to mongo started')
-    }
-    catch (err) {
+    } catch (err) {
         return res.status(400).send(err.message)
     }
 })
