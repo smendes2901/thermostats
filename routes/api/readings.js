@@ -2,11 +2,11 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 const fs = require('fs')
+const JSONStream = require('JSONStream')
 const {
     epochToString,
     stringToEpoch
 } = require('../../utils/datetime')
-const reduceByDate = require('../../utils/reduceByDate')
 const {
     read,
     upload
@@ -31,31 +31,43 @@ router.get('/', async (req, res) => {
 router.post('/', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    read(req.body.name).then(records => {
-        const refinedRecords =
-            //convert each epoch to string
-            records.map(record => ({
-                val: record.val,
-                ts: epochToString(record.ts)
-            }))
-                //filter reacords for the year 2015
-                .filter(record => record.ts.startsWith('2015'))
-                //groupby records  on a per day basis
-                .reduce((acc, curr) => reduceByDate(acc, curr), [])
-                //get the average val per day
-                .map(record => ({
-                    val: (record.val / record.count),
-                    ts: stringToEpoch(record.ts)
-                }))
-                //set x and y values for graph
-                .map(record => ({
-                    x: record.ts,
-                    y: record.val
-                }))
-        return res.status(200).send(refinedRecords)
-    }).catch(err => {
-        return res.status(400).json(err.message)
-    })
+    try {
+        const stream = fs.createReadStream('./data/' + req.body.name, {
+            encoding: 'utf8'
+        })
+        const parser = JSONStream.parse('*');
+        const record = {}
+
+        stream.pipe(parser);
+
+        parser.on('data', async (obj) => {
+            const val = obj.val
+            const ts = await epochToString(obj.ts)
+            if (ts.startsWith('2015')) {
+                if (Reflect.apply({}.hasOwnProperty, record, [ts])) {
+                    record[ts] += val
+                } else {
+                    record[ts] = val
+                }
+            }
+        });
+
+        parser.on('close', async () => {
+            const records = []
+            for (const key in record) {
+                if (Reflect.apply({}.hasOwnProperty, record, [key])) {
+                    const info = {}
+                    info.x = await stringToEpoch(key)
+                    info.y = record[key]
+                    records.push(info)
+                }
+            }
+            return res.send(records)
+        })
+    } catch (err) {
+        return res.status(400).send(err)
+    }
+
 })
 
 const uploadAndNotify = async (data, name, req) => {
